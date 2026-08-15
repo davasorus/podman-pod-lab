@@ -1,0 +1,22 @@
+version: 2
+updates:
+  # Go modules (go-redis etc.)
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      go-deps:
+        patterns: ["*"]
+
+  # Base images in container.dockerfile (golang, and redis if you ever pin it here)
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+
+  # Action versions in build-push.yml (checkout@v4, login-action@v3, ...)
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
