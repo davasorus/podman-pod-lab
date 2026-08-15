@@ -15,6 +15,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// Context and Redis client for the application.
 var (
 	ctx = context.Background()
 	rdb *redis.Client
