@@ -1,0 +1,11 @@
+[Unit]
+Description=shortlab pod (url shortener + redis)
+
+[Kube]
+Yaml=%h/.config/containers/systemd/shortlab.yaml
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

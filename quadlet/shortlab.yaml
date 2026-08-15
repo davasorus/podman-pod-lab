@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: shortlab
+  name: shortlab
+spec:
+  containers:
+  - image: localhost/shortener:latest
+    name: app
+    ports:
+    - containerPort: 8080
+      hostPort: 8081
+  - image: docker.io/library/redis:7-alpine
+    name: redis
+    args: ["redis-server", "--appendonly", "yes"]
+    volumeMounts:
+    - mountPath: /data
+      name: redis-data
+  volumes:
+  - name: redis-data
+    persistentVolumeClaim:
+      claimName: shortlab-redis-data
