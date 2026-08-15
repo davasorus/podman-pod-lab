@@ -44,7 +44,12 @@ func shorten(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "redis: "+err.Error(), http.StatusBadGateway)
 		return
 	}
-	fmt.Fprintf(w, "http://localhost:8080/%s\n", code)
+
+	base := os.Getenv("BASE_URL")
+	if base == "" {
+		base = "http://localhost:8081"
+	}
+	fmt.Fprintf(w, "%s/%s\n", base, code)
 }
 
 func resolve(w http.ResponseWriter, r *http.Request) {

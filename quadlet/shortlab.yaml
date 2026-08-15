@@ -4,9 +4,11 @@ metadata:
   labels:
     app: shortlab
   name: shortlab
+  annotations:
+    io.containers.autoupdate/app: registry
 spec:
   containers:
-  - image: localhost/shortener:latest
+  - image: ghcr.io/davasorus/shortener:latest
     name: app
     ports:
     - containerPort: 8080
