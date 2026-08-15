@@ -20,6 +20,7 @@ var (
 	rdb *redis.Client
 )
 
+// shorten generates a short code for a given URL and stores it in Redis.
 func shorten(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "POST only", http.StatusMethodNotAllowed)
@@ -52,6 +53,7 @@ func shorten(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%s/%s\n", base, code)
 }
 
+// resolve looks up the URL for a given code and redirects to it.
 func resolve(w http.ResponseWriter, r *http.Request) {
 	code := strings.TrimPrefix(r.URL.Path, "/")
 	if code == "" {
@@ -70,6 +72,7 @@ func resolve(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, url, http.StatusFound)
 }
 
+// main sets up the HTTP server and Redis client.
 func main() {
 	addr := os.Getenv("REDIS_ADDR")
 	if addr == "" {
