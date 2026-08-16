@@ -5,6 +5,9 @@ updates:
     directory: /
     schedule:
       interval: daily
+    commit-message:
+      prefix: "chore" # Prefixed commit message for NuGet updates
+      include: "scope"
     groups:
       go-deps:
         patterns: ["*"]
@@ -14,9 +17,15 @@ updates:
     directory: /
     schedule:
       interval: daily
+    commit-message:
+      prefix: "chore" # Prefixed commit message for NuGet updates
+      include: "scope"
 
   # Action versions in build-push.yml (checkout@v4, login-action@v3, ...)
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: daily
+    commit-message:
+      prefix: "chore" # Prefixed commit message for NuGet updates
+      include: "scope"
