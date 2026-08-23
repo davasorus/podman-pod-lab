@@ -12,6 +12,10 @@ port published on the pod — the Kubernetes pod model, locally.
 - `shortlab.yaml` — Kubernetes Pod manifest (cleaned output of
   `podman generate kube`), used to recreate the whole stack declaratively.
 
+## AI Usage
+
+- This was created using a combination of Online Claude Code and offline [gemma-4-12B](https://huggingface.co/google/gemma-4-12B)
+
 ## Run (imperative)
 
 ```sh
