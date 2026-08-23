@@ -1,1 +1,9 @@
-shortener
+# Built binaries
+/podlab
+/podlab.exe
+/shortener
+*.exe
+
+# Go
+*.test
+*.out

@@ -1,0 +1,4 @@
+# Keep Go sources and go.mod LF-normalized regardless of host OS.
+*.go text eol=lf
+go.mod text eol=lf
+go.sum text eol=lf

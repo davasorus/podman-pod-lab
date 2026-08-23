@@ -51,14 +51,14 @@ func shorten(w http.ResponseWriter, r *http.Request) {
 	if base == "" {
 		base = "http://localhost:8081"
 	}
-	fmt.Fprintf(w, "%s/%s\n", base, code)
+	_, _ = fmt.Fprintf(w, "%s/%s\n", base, code)
 }
 
 // resolve looks up the URL for a given code and redirects to it.
 func resolve(w http.ResponseWriter, r *http.Request) {
 	code := strings.TrimPrefix(r.URL.Path, "/")
 	if code == "" {
-		fmt.Fprintln(w, "POST a URL to /shorten")
+		_, _ = fmt.Fprintln(w, "POST a URL to /shorten")
 		return
 	}
 	url, err := rdb.Get(ctx, "url:"+code).Result()

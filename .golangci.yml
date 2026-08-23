@@ -1,0 +1,22 @@
+# golangci-lint v2 configuration for podlab.
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  default: standard
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - unconvert
+  exclusions:
+    generated: lax
+    rules:
+      # Test files may skip some rigor.
+      - path: _test\.go
+        linters:
+          - errcheck
