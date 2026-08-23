@@ -12,10 +12,6 @@ port published on the pod — the Kubernetes pod model, locally.
 - `shortlab.yaml` — Kubernetes Pod manifest (cleaned output of
   `podman generate kube`), used to recreate the whole stack declaratively.
 
-## AI Usage
-
-- This was created using a combination of Online Claude Code and offline [gemma-4-12B](https://huggingface.co/google/gemma-4-12B)
-
 ## Run (imperative)
 
 ```sh
@@ -39,6 +35,26 @@ podman play kube shortlab.yaml
 
 Same YAML deploys to a real Kubernetes cluster if the image is pushed to
 a registry.
+
+## Configuration
+
+Environment variables (all optional):
+
+| Var | Default | Purpose |
+|-----|---------|---------|
+| `REDIS_ADDR` | `localhost:6379` | Redis address (localhost within a shared pod netns) |
+| `PORT` | `8080` | HTTP listen port |
+| `BASE_URL` | `http://localhost:$PORT` | Base for the short links returned by `/shorten` |
+
+## Endpoints
+
+- `POST /shorten` — body is a `http(s)://` URL; returns `BASE_URL/<code>`.
+- `GET /<code>` — 302 redirect to the stored URL (404 if unknown).
+- `GET /healthz` — 200 `ok` when Redis is reachable, 503 otherwise (use for
+  container liveness/readiness probes).
+
+The server enforces read/write/idle timeouts and shuts down gracefully on
+SIGINT/SIGTERM, so in-flight requests finish when the pod stops.
 
 ## Use
 

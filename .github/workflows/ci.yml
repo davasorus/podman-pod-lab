@@ -1,0 +1,61 @@
+name: ci
+
+on:
+  push:
+    branches: [live]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  vulncheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+      - run: go install golang.org/x/vuln/cmd/govulncheck@latest
+      - name: govulncheck with allowlist
+        run: |
+          govulncheck ./... > vuln.out 2>&1 || true
+          found=$(grep -oE 'GO-[0-9]{4}-[0-9]+' vuln.out | sort -u)
+          allowed=$(grep -oE '^GO-[0-9]{4}-[0-9]+' .govulncheck-allow 2>/dev/null | sort -u)
+          new=$(comm -23 <(echo "$found") <(echo "$allowed"))
+          if [ -n "$new" ]; then
+            echo "::error::Unallowlisted vulnerabilities found:"
+            echo "$new"
+            cat vuln.out
+            exit 1
+          fi
+          echo "Only allowlisted vulnerabilities present (or none)."
+
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+      - run: go build ./...
+      - run: go vet ./...
+      - run: go test -race ./...
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+      - uses: golangci/golangci-lint-action@v9
+        with:
+          version: v2.13.1

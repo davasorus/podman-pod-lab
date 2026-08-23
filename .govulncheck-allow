@@ -1,0 +1,3 @@
+# Vulnerabilities assessed as not applicable are listed here, one GO-ID per
+# line, with rationale. CI fails on any govulncheck finding NOT listed below.
+# Currently empty: the go.mod `go` directive is kept on a patched release.
