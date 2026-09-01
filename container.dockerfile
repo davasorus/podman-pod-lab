@@ -1,5 +1,5 @@
 # Build a static binary, ship it on scratch.
-FROM docker.io/library/golang:1.26 AS build
+FROM docker.io/library/golang:1.27 AS build
 WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download
