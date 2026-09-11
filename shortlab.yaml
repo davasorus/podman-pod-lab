@@ -24,7 +24,7 @@ spec:
           port: 8080
         initialDelaySeconds: 5
         periodSeconds: 10
-    - image: docker.io/library/redis:7-alpine
+    - image: docker.io/library/redis:8-alpine
       name: redis
       volumeMounts:
         - mountPath: /data
